@@ -1,5 +1,6 @@
 export type StudyRecord = {
-    id: number;
+    created_at?: string | undefined;
+    id?: string | undefined;
+    time?: number | null | undefined;
     title: string;
-    time: number;
 }
