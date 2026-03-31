@@ -1,6 +1,4 @@
-export type StudyRecord = {
-    created_at?: string | undefined;
-    id?: string | undefined;
-    time?: number | null | undefined;
-    title: string;
-}
+import { Database } from "../../database.types";
+
+export type StudyRecord = Database["public"]["Tables"]["study-record"]["Row"]
+export type InsertRecord = Database["public"]["Tables"]["study-record"]["Insert"]
