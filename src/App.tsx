@@ -5,13 +5,14 @@ import {
   getAllRecords,
   insertRecord,
 } from "./utils/supabaseFunctions";
+import { StudyRecord } from "./types/recordType";
 
 export function App() {
   const [title, setTitle] = useState("");
-  const [time, setTime] = useState("0");
-  const [records, setRecords] = useState([]);
+  const [time, setTime] = useState<number|"">(0);
+  const [records, setRecords] = useState<StudyRecord[]>([]);
   const [error, setError] = useState("");
-  const [timeList, setTimeList] = useState([0]);
+  const [timeList, setTimeList] = useState<(number|null)[]>([0]);
   const [loading, setLoading] = useState(false);
 
   const getRecords = async () => {
@@ -35,17 +36,22 @@ export function App() {
     getRecords();
   }, []);
 
-  const handleTitle = (e) => {
+  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
-  const handleTime = (e) => {
-    setTime(e.target.value);
+  const handleTime = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value)
+    if (!isNaN(value)) {
+      setTime(value);
+    }else if(e.target.value === ""){
+      setTime("")
+    }
   };
   const handleClick = () => {
     if (title === "" || time === 0 || time === "") {
       setError("入力されていない項目があります");
     } else {
-      const createRecord = async (title, time) => {
+      const createRecord = async (title: string, time: number) => {
         try {
           await insertRecord({ title: title, time: time });
           await getRecords();
@@ -61,7 +67,7 @@ export function App() {
     }
   };
 
-  const onClickDelete = (index, id) => {
+  const onClickDelete = (index: number, id: string) => {
     const deleteRecordById = async () => {
       try {
         await deleteRecord(id);
@@ -71,7 +77,7 @@ export function App() {
         const newTimeList = [...timeList];
         newTimeList.splice(index, 1);
         setTimeList(newTimeList);
-      } catch (e) {
+      } catch {
         setError("削除に失敗しました");
       }
     };
@@ -110,9 +116,9 @@ export function App() {
           <button onClick={handleClick}>登録</button>
           <p>
             合計時間：
-            {timeList.reduce((accumlator, currentValue) => {
-              return parseInt(accumlator) + parseInt(currentValue);
-            }, 0)}
+            {timeList
+              .filter((val): val is number => val !== null) // ここで number[] に絞り込む
+              .reduce((acc, cur) => acc + cur, 0)}
             /1000(h)
           </p>
           <p>{error}</p>
