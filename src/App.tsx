@@ -6,6 +6,7 @@ import {
   insertRecord,
 } from "./utils/supabaseFunctions";
 import { StudyRecord } from "./types/recordType";
+import {Demo} from "./components/ui/Demo"
 
 export function App() {
   const [title, setTitle] = useState("");
@@ -122,6 +123,7 @@ export function App() {
             /1000(h)
           </p>
           <p>{error}</p>
+          <Demo/>
         </>
       )}
     </>
