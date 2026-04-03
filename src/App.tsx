@@ -1,41 +1,11 @@
 import "./App.css";
-import { useState, useEffect } from "react";
-import {
-  deleteRecord,
-  getAllRecords,
-  insertRecord,
-} from "./utils/supabaseFunctions";
-import { StudyRecord } from "./types/recordType";
 import {Demo} from "./components/ui/Demo"
+import { useStudyRecords } from "./hooks/useStudyRecords";
+
+
 
 export function App() {
-  const [title, setTitle] = useState("");
-  const [time, setTime] = useState<number|"">(0);
-  const [records, setRecords] = useState<StudyRecord[]>([]);
-  const [error, setError] = useState("");
-  const [timeList, setTimeList] = useState<(number|null)[]>([0]);
-  const [loading, setLoading] = useState(false);
-
-  const getRecords = async () => {
-    setLoading(true);
-    try {
-      const res = await getAllRecords();
-      if (res.error) {
-        console.log(res.error);
-        return;
-      }
-      setRecords(res.data);
-      setTimeList(res.data.map((record) => record.time));
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getRecords();
-  }, []);
+const {title, setTitle, time, setTime, error, setError, loading, records, timeList, createRecord, deleteRecordById} = useStudyRecords()
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -52,37 +22,12 @@ export function App() {
     if (title === "" || time === 0 || time === "") {
       setError("入力されていない項目があります");
     } else {
-      const createRecord = async (title: string, time: number) => {
-        try {
-          await insertRecord({ title: title, time: time });
-          await getRecords();
-          setTitle("");
-          setTime(0);
-          setError("");
-        } catch (e) {
-          console.log(e);
-          setError("登録に失敗しました");
-        }
-      };
       createRecord(title, time);
     }
   };
 
-  const onClickDelete = (index: number, id: string) => {
-    const deleteRecordById = async () => {
-      try {
-        await deleteRecord(id);
-        const newRecords = [...records];
-        newRecords.splice(index, 1);
-        setRecords(newRecords);
-        const newTimeList = [...timeList];
-        newTimeList.splice(index, 1);
-        setTimeList(newTimeList);
-      } catch {
-        setError("削除に失敗しました");
-      }
-    };
-    deleteRecordById();
+  const onClickDelete = ( id: string, index: number) => {
+    deleteRecordById(id, index);
   };
 
   return (
@@ -108,7 +53,7 @@ export function App() {
                 <p>
                   {record.title} {record.time}時間
                 </p>
-                <button onClick={() => onClickDelete(index, record.id)}>
+                <button onClick={() => onClickDelete(record.id, index)}>
                   削除
                 </button>
               </div>
