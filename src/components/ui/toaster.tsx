@@ -1,39 +1,42 @@
-"use client"
+"use client";
 
 import {
-  Toaster as ChakraToaster,
   Portal,
   Spinner,
   Stack,
   Toast,
-} from "@chakra-ui/react"
-import { toaster } from "../../utils/toaster"
-
+} from "@chakra-ui/react";
+import { toaster } from "../../utils/toaster";
+import { ToasterWithType } from "../wrapper/ToasterWithType";
+import { ToastTitleWithType } from "../wrapper/ToastTitleWithType";
+import { ToastDescriptionWithType } from "../wrapper/ToastDescriptionWithType";
+import { ToastActionTriggerWithType } from "../wrapper/ToastActionTriggerWithType";
 
 export const Toaster = () => {
   return (
     <Portal>
-      <ChakraToaster toaster={toaster} insetInline={{ mdDown: "4" }}>
+      <ToasterWithType toaster={toaster}>
         {(toast) => (
-          <Toast.Root width={{ md: "sm" }}>
+          <Toast.Root width={{ md: "sm" }} insetInline={{ mdDown: "4" }}>
             {toast.type === "loading" ? (
               <Spinner size="sm" color="blue.solid" />
             ) : (
               <Toast.Indicator />
             )}
             <Stack gap="1" flex="1" maxWidth="100%">
-              {toast.title && <Toast.Title>{toast.title}</Toast.Title>}
+              {toast.title && <ToastTitleWithType toaster={toaster}>{toast.title}</ToastTitleWithType>}
               {toast.description && (
-                <Toast.Description>{toast.description}</Toast.Description>
+                <ToastDescriptionWithType toaster={toaster}>{toast.description}</ToastDescriptionWithType>
               )}
             </Stack>
             {toast.action && (
-              <Toast.ActionTrigger>{toast.action.label}</Toast.ActionTrigger>
+              <ToastActionTriggerWithType toaster={toaster}>{toast.action.label}</ToastActionTriggerWithType>
             )}
-            {toast.closable && <Toast.CloseTrigger />}
+            {toast.meta?.closable && <Toast.CloseTrigger />}
           </Toast.Root>
         )}
-      </ChakraToaster>
+      </ToasterWithType>
     </Portal>
-  )
-}
+  );
+};
+
