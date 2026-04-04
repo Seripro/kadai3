@@ -1,5 +1,23 @@
 import { Tooltip as ChakraTooltip, Portal } from "@chakra-ui/react"
 import * as React from "react"
+import { FC } from "react"
+
+interface CustomTooltipTriggerProps extends ChakraTooltip.TriggerProps {
+  children?: React.ReactNode
+  asChild?: boolean
+}
+
+interface CustomTooltipPositionerProps extends ChakraTooltip.PositionerProps {
+  children?: React.ReactNode
+}
+
+interface CustomTooltipArrowProps extends ChakraTooltip.ArrowProps {
+  children?: React.ReactNode
+}
+
+const TooltipTriggerWithType = ChakraTooltip.Trigger as FC<CustomTooltipTriggerProps>
+const TooltipPositionerWithType = ChakraTooltip.Positioner as FC<CustomTooltipPositionerProps>
+const TooltipArrowWithType = ChakraTooltip.Arrow as FC<CustomTooltipArrowProps>
 
 export interface TooltipProps extends ChakraTooltip.RootProps {
   showArrow?: boolean
@@ -27,18 +45,18 @@ export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
 
     return (
       <ChakraTooltip.Root {...rest}>
-        <ChakraTooltip.Trigger asChild>{children}</ChakraTooltip.Trigger>
+        <TooltipTriggerWithType asChild>{children}</TooltipTriggerWithType>
         <Portal disabled={!portalled} container={portalRef}>
-          <ChakraTooltip.Positioner>
+          <TooltipPositionerWithType>
             <ChakraTooltip.Content ref={ref} {...contentProps}>
               {showArrow && (
-                <ChakraTooltip.Arrow>
+                <TooltipArrowWithType>
                   <ChakraTooltip.ArrowTip />
-                </ChakraTooltip.Arrow>
+                </TooltipArrowWithType>
               )}
               {content}
             </ChakraTooltip.Content>
-          </ChakraTooltip.Positioner>
+          </TooltipPositionerWithType>
         </Portal>
       </ChakraTooltip.Root>
     )
