@@ -1,4 +1,5 @@
 import "./App.css";
+import { Input } from "./components/molecules/Input";
 import {Demo} from "./components/ui/Demo"
 import { useStudyRecords } from "./hooks/useStudyRecords";
 
@@ -6,18 +7,6 @@ import { useStudyRecords } from "./hooks/useStudyRecords";
 
 export function App() {
 const {title, setTitle, time, setTime, error, setError, loading, records, timeList, createRecord, deleteRecordById} = useStudyRecords()
-
-  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-  const handleTime = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value)
-    if (!isNaN(value)) {
-      setTime(value);
-    }else if(e.target.value === ""){
-      setTime("")
-    }
-  };
   const handleClick = () => {
     if (title === "" || time === 0 || time === "") {
       setError("入力されていない項目があります");
@@ -39,11 +28,11 @@ const {title, setTitle, time, setTime, error, setError, loading, records, timeLi
           <h1 data-testid="title">学習記録一覧</h1>
           <div style={{ display: "flex" }}>
             <p>学習内容</p>
-            <input value={title} onChange={handleTitle} />
+            <Input type={"title"} value={title} setState={setTitle}/>
           </div>
           <div style={{ display: "flex" }}>
             <p>学習時間</p>
-            <input value={time} onChange={handleTime} />
+            <Input type={"time"} value={time} setState={setTime}/>
           </div>
           <p>入力されている学習内容：{title}</p>
           <p>入力されている時間：{time}時間</p>
