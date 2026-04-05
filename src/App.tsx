@@ -1,5 +1,5 @@
 import "./App.css";
-import { Input } from "./components/molecules/Input";
+import { InputArea } from "./components/organisms/InputArea";
 import {Demo} from "./components/ui/Demo"
 import { useStudyRecords } from "./hooks/useStudyRecords";
 
@@ -26,14 +26,8 @@ const {title, setTitle, time, setTime, error, setError, loading, records, timeLi
       ) : (
         <>
           <h1 data-testid="title">学習記録一覧</h1>
-          <div style={{ display: "flex" }}>
-            <p>学習内容</p>
-            <Input type={"title"} value={title} setState={setTitle}/>
-          </div>
-          <div style={{ display: "flex" }}>
-            <p>学習時間</p>
-            <Input type={"time"} value={time} setState={setTime}/>
-          </div>
+          <InputArea type={"title"} value={title} setState={setTitle}>学習内容</InputArea>
+          <InputArea type={"time"} value={time} setState={setTime}>学習時間</InputArea>
           <p>入力されている学習内容：{title}</p>
           <p>入力されている時間：{time}時間</p>
           {records.map((record, index) => {
