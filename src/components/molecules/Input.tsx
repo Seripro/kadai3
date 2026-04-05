@@ -12,9 +12,9 @@ type TimeProps = {
   setState: React.Dispatch<React.SetStateAction<number | "">>;
 };
 
-type Props = TitleProps | TimeProps;
+export type InputProps = TitleProps | TimeProps;
 
-export const Input = (props: Props) => {
+export const Input = (props: InputProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
 
