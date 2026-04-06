@@ -1,5 +1,6 @@
 import './App.css';
 import { DeleteButton } from './components/molecules/DeleteButton';
+import { InputContent } from './components/molecules/InputContent';
 import { InputArea } from './components/organisms/InputArea';
 import { Demo } from './components/ui/Demo';
 import { useStudyRecords } from './hooks/useStudyRecords';
@@ -27,8 +28,7 @@ export function App() {
           <InputArea type={'time'} value={time} setState={setTime}>
             学習時間
           </InputArea>
-          <p>入力されている学習内容：{title}</p>
-          <p>入力されている時間：{time}時間</p>
+          <InputContent title={title} time={time} />
           {records.map((record, index) => {
             return (
               <div key={record.id} style={{ display: 'flex' }}>
