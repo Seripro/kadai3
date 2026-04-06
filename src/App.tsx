@@ -1,22 +1,17 @@
-import "./App.css";
-import { InputArea } from "./components/organisms/InputArea";
-import {Demo} from "./components/ui/Demo"
-import { useStudyRecords } from "./hooks/useStudyRecords";
-
-
+import './App.css';
+import { DeleteButton } from './components/molecules/DeleteButton';
+import { InputArea } from './components/organisms/InputArea';
+import { Demo } from './components/ui/Demo';
+import { useStudyRecords } from './hooks/useStudyRecords';
 
 export function App() {
-const {title, setTitle, time, setTime, error, setError, loading, records, timeList, createRecord, deleteRecordById} = useStudyRecords()
+  const { title, setTitle, time, setTime, error, setError, loading, records, timeList, createRecord, deleteRecordById } = useStudyRecords();
   const handleClick = () => {
-    if (title === "" || time === 0 || time === "") {
-      setError("入力されていない項目があります");
+    if (title === '' || time === 0 || time === '') {
+      setError('入力されていない項目があります');
     } else {
       createRecord(title, time);
     }
-  };
-
-  const onClickDelete = ( id: string, index: number) => {
-    deleteRecordById(id, index);
   };
 
   return (
@@ -26,19 +21,21 @@ const {title, setTitle, time, setTime, error, setError, loading, records, timeLi
       ) : (
         <>
           <h1 data-testid="title">学習記録一覧</h1>
-          <InputArea type={"title"} value={title} setState={setTitle}>学習内容</InputArea>
-          <InputArea type={"time"} value={time} setState={setTime}>学習時間</InputArea>
+          <InputArea type={'title'} value={title} setState={setTitle}>
+            学習内容
+          </InputArea>
+          <InputArea type={'time'} value={time} setState={setTime}>
+            学習時間
+          </InputArea>
           <p>入力されている学習内容：{title}</p>
           <p>入力されている時間：{time}時間</p>
           {records.map((record, index) => {
             return (
-              <div key={record.id} style={{ display: "flex" }}>
+              <div key={record.id} style={{ display: 'flex' }}>
                 <p>
                   {record.title} {record.time}時間
                 </p>
-                <button onClick={() => onClickDelete(record.id, index)}>
-                  削除
-                </button>
+                <DeleteButton id={record.id} index={index} onDelete={deleteRecordById} />
               </div>
             );
           })}
@@ -51,7 +48,7 @@ const {title, setTitle, time, setTime, error, setError, loading, records, timeLi
             /1000(h)
           </p>
           <p>{error}</p>
-          <Demo/>
+          <Demo />
         </>
       )}
     </>
