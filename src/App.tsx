@@ -1,7 +1,7 @@
 import './App.css';
-import { DeleteButton } from './components/molecules/DeleteButton';
 import { InputContent } from './components/molecules/InputContent';
 import { InputArea } from './components/organisms/InputArea';
+import { RecordsArea } from './components/organisms/RecordsArea';
 import { Demo } from './components/ui/Demo';
 import { useStudyRecords } from './hooks/useStudyRecords';
 
@@ -29,16 +29,7 @@ export function App() {
             学習時間
           </InputArea>
           <InputContent title={title} time={time} />
-          {records.map((record, index) => {
-            return (
-              <div key={record.id} style={{ display: 'flex' }}>
-                <p>
-                  {record.title} {record.time}時間
-                </p>
-                <DeleteButton id={record.id} index={index} onDelete={deleteRecordById} />
-              </div>
-            );
-          })}
+          <RecordsArea records={records} onDelete={deleteRecordById} />
           <button onClick={handleClick}>登録</button>
           <p>
             合計時間：
