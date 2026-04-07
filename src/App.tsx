@@ -1,5 +1,6 @@
 import './App.css';
 import { InputContent } from './components/molecules/InputContent';
+import { RegisterButton } from './components/molecules/RegisterButton';
 import { InputArea } from './components/organisms/InputArea';
 import { RecordsArea } from './components/organisms/RecordsArea';
 import { Demo } from './components/ui/Demo';
@@ -7,13 +8,6 @@ import { useStudyRecords } from './hooks/useStudyRecords';
 
 export function App() {
   const { title, setTitle, time, setTime, error, setError, loading, records, timeList, createRecord, deleteRecordById } = useStudyRecords();
-  const handleClick = () => {
-    if (title === '' || time === 0 || time === '') {
-      setError('入力されていない項目があります');
-    } else {
-      createRecord(title, time);
-    }
-  };
 
   return (
     <>
@@ -30,7 +24,7 @@ export function App() {
           </InputArea>
           <InputContent title={title} time={time} />
           <RecordsArea records={records} onDelete={deleteRecordById} />
-          <button onClick={handleClick}>登録</button>
+          <RegisterButton title={title} time={time} setError={setError} createRecord={createRecord} />
           <p>
             合計時間：
             {timeList
