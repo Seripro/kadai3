@@ -1,6 +1,7 @@
 import './App.css';
 import { InputContent } from './components/molecules/InputContent';
 import { RegisterButton } from './components/molecules/RegisterButton';
+import { SumTime } from './components/molecules/SumTime';
 import { InputArea } from './components/organisms/InputArea';
 import { RecordsArea } from './components/organisms/RecordsArea';
 import { Demo } from './components/ui/Demo';
@@ -25,13 +26,7 @@ export function App() {
           <InputContent title={title} time={time} />
           <RecordsArea records={records} onDelete={deleteRecordById} />
           <RegisterButton title={title} time={time} setError={setError} createRecord={createRecord} />
-          <p>
-            合計時間：
-            {timeList
-              .filter((val): val is number => val !== null) // ここで number[] に絞り込む
-              .reduce((acc, cur) => acc + cur, 0)}
-            /1000(h)
-          </p>
+          <SumTime timeList={timeList} />
           <p>{error}</p>
           <Demo />
         </>
