@@ -1,8 +1,8 @@
-import { StudyRecord } from '../../types/recordType';
+import { Record } from '../../domain/record';
 import { RecordArea } from '../molecules/RecordArea';
 
 type Props = {
-  records: StudyRecord[];
+  records: Record[];
   onDelete: (id: string, index: number) => void;
 };
 
