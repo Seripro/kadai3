@@ -1,3 +1,5 @@
+import { Button } from '@chakra-ui/react';
+
 type Props = {
   id: string;
   index: number;
@@ -8,5 +10,9 @@ export const DeleteButton = (props: Props) => {
   const onClickDelete = (id: string, index: number) => {
     props.onDelete(id, index);
   };
-  return <button onClick={() => onClickDelete(props.id, props.index)}>削除</button>;
+  return (
+    <Button onClick={() => onClickDelete(props.id, props.index)} colorPalette="red" variant="surface" size="xs">
+      削除
+    </Button>
+  );
 };
