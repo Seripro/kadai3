@@ -1,3 +1,4 @@
+import { VStack } from '@chakra-ui/react';
 import { Record } from '../../domain/record';
 import { RecordArea } from '../molecules/RecordArea';
 
@@ -9,10 +10,10 @@ type Props = {
 export const RecordsArea = (props: Props) => {
   const { records, onDelete } = props;
   return (
-    <>
+    <VStack>
       {records.map((record, index) => {
         return <RecordArea id={record.id} title={record.title} time={record.time} index={index} onDelete={onDelete} />;
       })}
-    </>
+    </VStack>
   );
 };
