@@ -1,4 +1,6 @@
+import { HStack } from '@chakra-ui/react';
 import { DeleteButton } from './DeleteButton';
+import { TextCard } from './TextCard';
 
 type Props = {
   id: string;
@@ -10,11 +12,12 @@ type Props = {
 
 export const RecordArea = (props: Props) => {
   return (
-    <div key={props.id} style={{ display: 'flex' }}>
-      <p>
-        {props.title} {props.time}時間
-      </p>
-      <DeleteButton id={props.id} index={props.index} onDelete={props.onDelete} />
+    <div key={props.id}>
+      <HStack>
+        <TextCard>{props.title}</TextCard>
+        <TextCard>{props.time}時間</TextCard>
+        <DeleteButton id={props.id} index={props.index} onDelete={props.onDelete} />
+      </HStack>
     </div>
   );
 };
