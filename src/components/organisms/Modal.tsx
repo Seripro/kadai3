@@ -1,4 +1,4 @@
-import { Button, CloseButton, Dialog, HStack, Portal } from '@chakra-ui/react';
+import { Button, CloseButton, Dialog, HStack, VStack, Portal } from '@chakra-ui/react';
 import type React from 'react';
 import type { FC } from 'react';
 import { RegisterButton } from '../molecules/RegisterButton';
@@ -59,12 +59,14 @@ export const Modal = (props: Props) => {
                 <DialogTitleWithType>学習記録を追加</DialogTitleWithType>
               </Dialog.Header>
               <Dialog.Body>
-                <InputArea type={'title'} value={title} setState={setTitle}>
-                  学習内容
-                </InputArea>
-                <InputArea type={'time'} value={time} setState={setTime}>
-                  学習時間
-                </InputArea>
+                <VStack>
+                  <InputArea placeholder="英語" type={'title'} value={title} setState={setTitle}>
+                    学習内容
+                  </InputArea>
+                  <InputArea placeholder="3" type={'time'} value={time} setState={setTime}>
+                    学習時間
+                  </InputArea>
+                </VStack>
               </Dialog.Body>
               <Dialog.Footer>
                 <Dialog.ActionTrigger asChild>
