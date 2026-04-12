@@ -12,7 +12,7 @@ export const RecordsArea = (props: Props) => {
   return (
     <VStack>
       {records.map((record, index) => {
-        return <RecordArea id={record.id} title={record.title} time={record.time} index={index} onDelete={onDelete} />;
+        return <RecordArea key={index} id={record.id} title={record.title} time={record.time} index={index} onDelete={onDelete} />;
       })}
     </VStack>
   );
