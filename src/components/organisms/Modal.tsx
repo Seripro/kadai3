@@ -1,4 +1,4 @@
-import { Button, CloseButton, Dialog, HStack, VStack, Portal } from '@chakra-ui/react';
+import { Button, CloseButton, Dialog, HStack, VStack, Portal, Text } from '@chakra-ui/react';
 import type React from 'react';
 import type { FC } from 'react';
 import { RegisterButton } from '../molecules/RegisterButton';
@@ -39,16 +39,22 @@ type Props = {
   createRecord: (title: string, time: number) => Promise<void>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   setTime: React.Dispatch<React.SetStateAction<number | ''>>;
+  error: string;
 };
 
 export const Modal = (props: Props) => {
-  const { title, time, setError, createRecord, setTitle, setTime } = props;
+  const { title, time, setError, createRecord, setTitle, setTime, error } = props;
+  const onClickCancel = () => {
+    setTime('');
+    setTitle('');
+    setError('');
+  };
   return (
     <HStack>
       <Dialog.Root size="sm">
         <DialogTriggerWithType asChild>
-          <Button variant="outline" size="sm">
-            Open
+          <Button variant="outline" size="sm" colorPalette="green">
+            記録を追加
           </Button>
         </DialogTriggerWithType>
         <Portal>
@@ -69,15 +75,16 @@ export const Modal = (props: Props) => {
                 </VStack>
               </Dialog.Body>
               <Dialog.Footer>
+                <Text style={{ color: 'red' }}>{error}</Text>
                 <Dialog.ActionTrigger asChild>
-                  <Button variant="outline" colorPalette="red">
+                  <Button variant="outline" colorPalette="red" onClick={onClickCancel}>
                     キャンセル
                   </Button>
                 </Dialog.ActionTrigger>
                 <RegisterButton title={title} time={time} setError={setError} createRecord={createRecord} />
               </Dialog.Footer>
               <DialogCloseTriggerWithType asChild>
-                <CloseButton size="sm" />
+                <CloseButton size="sm" onClick={onClickCancel} />
               </DialogCloseTriggerWithType>
             </DialogContentWithType>
           </DialogPositionerWithType>
