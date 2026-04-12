@@ -17,10 +17,9 @@ export function App() {
       ) : (
         <>
           <h1 data-testid="title">学習記録一覧</h1>
-          <Modal title={title} time={time} setError={setError} createRecord={createRecord} setTitle={setTitle} setTime={setTime} />
+          <Modal title={title} time={time} setError={setError} createRecord={createRecord} setTitle={setTitle} setTime={setTime} error={error} />
           <RecordsArea records={records} onDelete={deleteRecordById} />
           <SumTime timeList={timeList} />
-          <p>{error}</p>
         </>
       )}
     </>
