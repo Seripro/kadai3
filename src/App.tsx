@@ -1,3 +1,4 @@
+import { Spinner, Center } from '@chakra-ui/react';
 import './App.css';
 import { SumTime } from './components/molecules/SumTime';
 import { Modal } from './components/organisms/Modal';
@@ -10,7 +11,9 @@ export function App() {
   return (
     <>
       {loading ? (
-        <p>Loading...</p>
+        <Center>
+          <Spinner size="xl" />
+        </Center>
       ) : (
         <>
           <h1 data-testid="title">学習記録一覧</h1>
