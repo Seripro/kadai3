@@ -1,3 +1,5 @@
+import { Button } from '@chakra-ui/react';
+
 type Props = {
   title: string;
   time: number | '';
@@ -13,5 +15,9 @@ export const RegisterButton = (props: Props) => {
       props.createRecord(props.title, props.time);
     }
   };
-  return <button onClick={handleClick}>登録</button>;
+  return (
+    <Button variant="outline" colorPalette="green" onClick={handleClick}>
+      登録
+    </Button>
+  );
 };
