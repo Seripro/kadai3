@@ -1,10 +1,7 @@
 import './App.css';
-import { InputContent } from './components/molecules/InputContent';
-import { RegisterButton } from './components/molecules/RegisterButton';
 import { SumTime } from './components/molecules/SumTime';
-import { InputArea } from './components/organisms/InputArea';
+import { Modal } from './components/organisms/Modal';
 import { RecordsArea } from './components/organisms/RecordsArea';
-import { Demo } from './components/ui/Demo';
 import { useStudyRecords } from './hooks/useStudyRecords';
 
 export function App() {
@@ -17,18 +14,10 @@ export function App() {
       ) : (
         <>
           <h1 data-testid="title">学習記録一覧</h1>
-          <InputArea type={'title'} value={title} setState={setTitle}>
-            学習内容
-          </InputArea>
-          <InputArea type={'time'} value={time} setState={setTime}>
-            学習時間
-          </InputArea>
-          <InputContent title={title} time={time} />
+          <Modal title={title} time={time} setError={setError} createRecord={createRecord} setTitle={setTitle} setTime={setTime} />
           <RecordsArea records={records} onDelete={deleteRecordById} />
-          <RegisterButton title={title} time={time} setError={setError} createRecord={createRecord} />
           <SumTime timeList={timeList} />
           <p>{error}</p>
-          <Demo />
         </>
       )}
     </>
