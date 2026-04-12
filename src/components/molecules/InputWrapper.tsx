@@ -1,30 +1,33 @@
-import React from "react";
+import React from 'react';
+import { Input } from '@chakra-ui/react';
 
 type TitleProps = {
-  type: "title";
+  placeholder: string;
+  type: 'title';
   value: string;
   setState: React.Dispatch<React.SetStateAction<string>>;
 };
 
 type TimeProps = {
-  type: "time";
-  value: number | "";
-  setState: React.Dispatch<React.SetStateAction<number | "">>;
+  placeholder: string;
+  type: 'time';
+  value: number | '';
+  setState: React.Dispatch<React.SetStateAction<number | ''>>;
 };
 
 export type InputProps = TitleProps | TimeProps;
 
-export const Input = (props: InputProps) => {
+export const InputWrapper = (props: InputProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
 
-    if (props.type === "time") {
+    if (props.type === 'time') {
       // 数値用のロジック
       const parsed = parseInt(inputValue);
       if (!isNaN(parsed)) {
         props.setState(parsed);
-      } else if (inputValue === "") {
-        props.setState("");
+      } else if (inputValue === '') {
+        props.setState('');
       }
     } else {
       // 文字列用のロジック
@@ -33,10 +36,12 @@ export const Input = (props: InputProps) => {
   };
 
   return (
-    <input
+    <Input
+      placeholder={props.placeholder}
+      variant="subtle"
       value={props.value}
       onChange={handleChange}
-      type={props.type === "time" ? "number" : "text"}
+      type={props.type === 'time' ? 'number' : 'text'}
     />
   );
 };
