@@ -12,7 +12,7 @@ type Props = {
 
 export const RecordArea = (props: Props) => {
   return (
-    <div key={props.id}>
+    <div>
       <HStack>
         <TextCard>{props.title}</TextCard>
         <TextCard>{props.time}時間</TextCard>
