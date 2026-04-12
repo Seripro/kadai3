@@ -1,12 +1,14 @@
-import { Input, InputProps } from "../molecules/Input"
+import { HStack } from '@chakra-ui/react';
+import { InputWrapper, InputProps } from '../molecules/InputWrapper';
+import { TextCard } from '../molecules/TextCard';
 
-type Props = {children?: string} & InputProps
+type Props = { children?: string } & InputProps;
 
-export const InputArea = (props: Props)=>{
-    return(
-          <div style={{ display: "flex" }}>
-            <p>{props.children}</p>
-            <Input {...props} />
-          </div>
-    )
-}
+export const InputArea = (props: Props) => {
+  return (
+    <HStack>
+      <TextCard>{props.children}</TextCard>
+      <InputWrapper {...props} />
+    </HStack>
+  );
+};
