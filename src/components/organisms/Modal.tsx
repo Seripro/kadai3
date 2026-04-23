@@ -81,7 +81,7 @@ export const Modal = (props: Props) => {
                     キャンセル
                   </Button>
                 </Dialog.ActionTrigger>
-                <RegisterButton title={title} time={time} setError={setError} createRecord={createRecord} />
+                <RegisterButton title={title} time={time} error={error} setError={setError} createRecord={createRecord} />
               </Dialog.Footer>
               <DialogCloseTriggerWithType asChild>
                 <CloseButton size="sm" onClick={onClickCancel} />
