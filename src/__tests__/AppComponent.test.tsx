@@ -1,24 +1,51 @@
 import { App } from '../App';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from '../components/ui/provider';
+
+let mockRecords: {
+  created_at: string;
+  id: string;
+  time: number;
+  title: string;
+}[] = [];
 
 jest.mock('../utils/supabase.ts', () => {
   return {
     supabase: {
       from: jest.fn().mockReturnValue({
-        select: jest.fn().mockResolvedValue({
-          data: [
+        select: jest.fn().mockImplementation(async () => ({
+          data: mockRecords,
+          error: null,
+        })),
+        insert: jest.fn().mockImplementation(async (record: { title: string; time: number }) => {
+          mockRecords = [
+            ...mockRecords,
             {
               created_at: '2025/01/01',
-              id: '1',
-              time: 1,
-              title: 'English',
+              id: String(mockRecords.length + 1),
+              time: record.time,
+              title: record.title,
             },
-          ],
+          ];
+          return {
+            data: null,
+            error: null,
+          };
         }),
       }),
     },
   };
+});
+
+beforeEach(() => {
+  mockRecords = [
+    {
+      created_at: '2025/01/01',
+      id: '1',
+      time: 1,
+      title: 'English',
+    },
+  ];
 });
 
 describe('title', () => {
@@ -65,5 +92,24 @@ describe('new record', () => {
     );
     const button = await screen.findByText('記録を追加');
     expect(button).toBeInTheDocument();
+  });
+  it('add a record', async () => {
+    render(
+      <Provider>
+        <App />
+      </Provider>
+    );
+    const button = await screen.findByText('記録を追加');
+    fireEvent.click(button);
+    const inputTitle = await screen.findByPlaceholderText('英語');
+    const inputTime = await screen.findByPlaceholderText('3');
+    const addButton = await screen.findByText('登録');
+    fireEvent.change(inputTitle, { target: { value: 'Math' } });
+    fireEvent.change(inputTime, { target: { value: '1' } });
+    fireEvent.click(addButton);
+    const title = await screen.findByText('Math');
+    const times = await screen.findAllByText('1時間');
+    expect(title).toBeInTheDocument();
+    expect(times).toHaveLength(2);
   });
 });
