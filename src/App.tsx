@@ -12,7 +12,7 @@ export function App() {
     <>
       {loading ? (
         <Center>
-          <Spinner size="xl" />
+          <Spinner data-testid="loading" size="xl" />
         </Center>
       ) : (
         <>
