@@ -93,6 +93,17 @@ describe('new record', () => {
     const button = await screen.findByText('記録を追加');
     expect(button).toBeInTheDocument();
   });
+  it('should render modal title', async () => {
+    render(
+      <Provider>
+        <App />
+      </Provider>
+    );
+    const button = await screen.findByText('記録を追加');
+    fireEvent.click(button);
+    const title = await screen.findByText('学習記録を追加');
+    expect(title).toBeInTheDocument();
+  });
   it('add a record', async () => {
     render(
       <Provider>
