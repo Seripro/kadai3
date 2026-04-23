@@ -56,3 +56,14 @@ describe('table', () => {
     expect(time).toBeInTheDocument();
   });
 });
+describe('new record', () => {
+  it('should render new record button', async () => {
+    render(
+      <Provider>
+        <App />
+      </Provider>
+    );
+    const button = await screen.findByText('記録を追加');
+    expect(button).toBeInTheDocument();
+  });
+});
