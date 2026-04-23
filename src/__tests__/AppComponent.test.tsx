@@ -110,14 +110,21 @@ describe('new record', () => {
         <App />
       </Provider>
     );
+    // 記録を追加ボタンを押し、モーダルを開く
     const button = await screen.findByText('記録を追加');
     fireEvent.click(button);
+
+    // 入力欄、登録ボタンを取得
     const inputTitle = await screen.findByPlaceholderText('英語');
     const inputTime = await screen.findByPlaceholderText('3');
     const addButton = await screen.findByText('登録');
+
+    // 内容を入力し、登録ボタンをクリック
     fireEvent.change(inputTitle, { target: { value: 'Math' } });
     fireEvent.change(inputTime, { target: { value: '1' } });
     fireEvent.click(addButton);
+
+    // 追加した記録が表示されることを確認
     const title = await screen.findByText('Math');
     const times = await screen.findAllByText('1時間');
     expect(title).toBeInTheDocument();
