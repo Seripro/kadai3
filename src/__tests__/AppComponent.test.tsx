@@ -43,3 +43,16 @@ describe('loading', () => {
     expect(loading).toBeInTheDocument();
   });
 });
+describe('table', () => {
+  it('should render table', async () => {
+    render(
+      <Provider>
+        <App />
+      </Provider>
+    );
+    const title = await screen.findByText('English');
+    const time = await screen.findByText('1時間');
+    expect(title).toBeInTheDocument();
+    expect(time).toBeInTheDocument();
+  });
+});
