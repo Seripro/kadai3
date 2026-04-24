@@ -1,6 +1,7 @@
 import { App } from '../App';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Provider } from '../components/ui/provider';
+import { UpdateRecord } from '../types/recordType';
 
 let mockRecords: {
   created_at: string;
@@ -35,6 +36,27 @@ jest.mock('../utils/supabase.ts', () => {
         delete: jest.fn().mockImplementation(() => ({
           eq: jest.fn().mockImplementation(async (_column: string, id: string) => {
             const newRecords = mockRecords.filter((record) => record.id !== id);
+            mockRecords = [...newRecords];
+            return {
+              data: null,
+              error: null,
+            };
+          }),
+        })),
+        update: jest.fn().mockImplementation((updateRecord: UpdateRecord) => ({
+          eq: jest.fn().mockImplementation(async (_column: string, id: string) => {
+            const newRecords = mockRecords.map((record) => {
+              if (record.id == id) {
+                return {
+                  created_at: updateRecord.created_at ?? record.created_at,
+                  id: id,
+                  time: updateRecord.time ?? record.time,
+                  title: updateRecord.title ?? record.title,
+                };
+              } else {
+                return record;
+              }
+            });
             mockRecords = [...newRecords];
             return {
               data: null,
@@ -256,6 +278,28 @@ describe('new record', () => {
       fireEvent.click(editButton);
       const title = await screen.findByText('学習記録を編集');
       expect(title).toBeInTheDocument();
+    });
+    it('edit a record', async () => {
+      render(
+        <Provider>
+          <App />
+        </Provider>
+      );
+      const editButton = await screen.findByText('編集');
+      fireEvent.click(editButton);
+      // 入力欄、登録ボタンを取得
+      const inputTitle = await screen.findByPlaceholderText('英語');
+      const inputTime = await screen.findByPlaceholderText('3');
+      const addButton = await screen.findByText('更新');
+
+      // 内容を入力し、登録ボタンをクリック
+      fireEvent.change(inputTitle, { target: { value: 'Math' } });
+      fireEvent.change(inputTime, { target: { value: '1' } });
+      fireEvent.click(addButton);
+      const title = await screen.findByText('Math');
+      const time = await screen.findByText('1時間');
+      expect(title).toBeInTheDocument();
+      expect(time).toBeInTheDocument();
     });
   });
 });
