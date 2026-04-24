@@ -107,7 +107,9 @@ export const EditModal = (props: Props) => {
                     キャンセル
                   </Button>
                 </Dialog.ActionTrigger>
-                <Button onClick={onClickUpdate}>更新</Button>
+                <Button variant="outline" colorPalette="green" onClick={onClickUpdate}>
+                  更新
+                </Button>
               </Dialog.Footer>
               <DialogCloseTriggerWithType asChild>
                 <CloseButton size="sm" onClick={onClickCancel} />
