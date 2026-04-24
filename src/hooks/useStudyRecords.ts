@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { deleteRecord, getAllRecords, insertRecord } from '../utils/supabaseFunctions';
+import { deleteRecord, getAllRecords, insertRecord, updateRecord } from '../utils/supabaseFunctions';
 import { Record } from '../domain/record';
 
 export const useStudyRecords = () => {
@@ -58,6 +58,29 @@ export const useStudyRecords = () => {
     }
   };
 
+  const updateRecordById = async (id: string, title: string, time: number | null) => {
+    try {
+      await updateRecord({ id: id, title: title, time: time });
+      const newRecords = records.map((record) => {
+        if (record.id !== id) {
+          return record;
+        }
+        return {
+          ...record,
+          title: title,
+          time: time,
+        };
+      });
+      setRecords(newRecords);
+      setTimeList(newRecords.map((record) => record.time));
+      setError('');
+      return true;
+    } catch {
+      setError('更新に失敗しました');
+      return false;
+    }
+  };
+
   return {
     title,
     setTitle,
@@ -70,5 +93,6 @@ export const useStudyRecords = () => {
     timeList,
     createRecord,
     deleteRecordById,
+    updateRecordById,
   };
 };
