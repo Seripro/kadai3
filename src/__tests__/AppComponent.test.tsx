@@ -245,4 +245,17 @@ describe('new record', () => {
       });
     });
   });
+  describe('edit', () => {
+    it('should render edit title', async () => {
+      render(
+        <Provider>
+          <App />
+        </Provider>
+      );
+      const editButton = await screen.findByText('編集');
+      fireEvent.click(editButton);
+      const title = await screen.findByText('学習記録を編集');
+      expect(title).toBeInTheDocument();
+    });
+  });
 });
