@@ -130,4 +130,26 @@ describe('new record', () => {
     expect(title).toBeInTheDocument();
     expect(times).toHaveLength(2);
   });
+  it('raise title error', async () => {
+    render(
+      <Provider>
+        <App />
+      </Provider>
+    );
+    // 記録を追加ボタンを押し、モーダルを開く
+    const button = await screen.findByText('記録を追加');
+    fireEvent.click(button);
+
+    // 入力欄、登録ボタンを取得
+    const inputTime = await screen.findByPlaceholderText('3');
+    const addButton = await screen.findByText('登録');
+
+    // 学習時間を入力し、登録ボタンをクリック
+    fireEvent.change(inputTime, { target: { value: '1' } });
+    fireEvent.click(addButton);
+
+    // 学習内容のエラーメッセージが表示されることを確認
+    const titleError = await screen.findByText('学習内容を入力してください');
+    expect(titleError).toBeInTheDocument();
+  });
 });
