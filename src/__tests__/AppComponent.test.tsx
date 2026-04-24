@@ -174,4 +174,26 @@ describe('new record', () => {
     const timeError = await screen.findByText('正しい学習時間を入力してください');
     expect(timeError).toBeInTheDocument();
   });
+  it('raise title error and time error', async () => {
+    render(
+      <Provider>
+        <App />
+      </Provider>
+    );
+    // 記録を追加ボタンを押し、モーダルを開く
+    const button = await screen.findByText('記録を追加');
+    fireEvent.click(button);
+
+    // 登録ボタンを取得
+    const addButton = await screen.findByText('登録');
+
+    // 登録ボタンをクリック
+    fireEvent.click(addButton);
+
+    // 学習内容、学習時間のエラーメッセージが表示されることを確認
+    const titleAndTimeError = await screen.findByText((content) => {
+      return content.includes('学習内容を入力してください') && content.includes('正しい学習時間を入力してください');
+    });
+    expect(titleAndTimeError).toBeInTheDocument();
+  });
 });
