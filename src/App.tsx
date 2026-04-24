@@ -6,7 +6,8 @@ import { RecordsArea } from './components/organisms/RecordsArea';
 import { useStudyRecords } from './hooks/useStudyRecords';
 
 export function App() {
-  const { title, setTitle, time, setTime, error, setError, loading, records, timeList, createRecord, deleteRecordById } = useStudyRecords();
+  const { title, setTitle, time, setTime, error, setError, loading, records, timeList, createRecord, deleteRecordById, updateRecordById } =
+    useStudyRecords();
 
   return (
     <>
@@ -18,7 +19,7 @@ export function App() {
         <>
           <h1 data-testid="title">学習記録一覧</h1>
           <Modal title={title} time={time} setError={setError} createRecord={createRecord} setTitle={setTitle} setTime={setTime} error={error} />
-          <RecordsArea records={records} onDelete={deleteRecordById} />
+          <RecordsArea records={records} onDelete={deleteRecordById} onUpdate={updateRecordById} />
           <SumTime timeList={timeList} />
         </>
       )}
