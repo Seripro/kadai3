@@ -1,5 +1,5 @@
 import { App } from '../App';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Provider } from '../components/ui/provider';
 
 let mockRecords: {
@@ -32,6 +32,16 @@ jest.mock('../utils/supabase.ts', () => {
             error: null,
           };
         }),
+        delete: jest.fn().mockImplementation(() => ({
+          eq: jest.fn().mockImplementation(async (_column: string, id: string) => {
+            const newRecords = mockRecords.filter((record) => record.id !== id);
+            mockRecords = [...newRecords];
+            return {
+              data: null,
+              error: null,
+            };
+          }),
+        })),
       }),
     },
   };
@@ -219,5 +229,20 @@ describe('new record', () => {
     // 追加した記録が表示されることを確認
     const timeError = await screen.findByText('正しい学習時間を入力してください');
     expect(timeError).toBeInTheDocument();
+  });
+  describe('delete', () => {
+    it('delete a record', async () => {
+      render(
+        <Provider>
+          <App />
+        </Provider>
+      );
+      const deleteButton = await screen.findByText('削除');
+      fireEvent.click(deleteButton);
+
+      await waitFor(() => {
+        expect(screen.queryByText('削除')).not.toBeInTheDocument();
+      });
+    });
   });
 });
