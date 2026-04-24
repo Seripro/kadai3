@@ -152,4 +152,26 @@ describe('new record', () => {
     const titleError = await screen.findByText('学習内容を入力してください');
     expect(titleError).toBeInTheDocument();
   });
+  it('raise title error', async () => {
+    render(
+      <Provider>
+        <App />
+      </Provider>
+    );
+    // 記録を追加ボタンを押し、モーダルを開く
+    const button = await screen.findByText('記録を追加');
+    fireEvent.click(button);
+
+    // 入力欄、登録ボタンを取得
+    const inputTitle = await screen.findByPlaceholderText('英語');
+    const addButton = await screen.findByText('登録');
+
+    // 学習内容を入力し、登録ボタンをクリック
+    fireEvent.change(inputTitle, { target: { value: '数学' } });
+    fireEvent.click(addButton);
+
+    // 学習内容のエラーメッセージが表示されることを確認
+    const timeError = await screen.findByText('正しい学習時間を入力してください');
+    expect(timeError).toBeInTheDocument();
+  });
 });
